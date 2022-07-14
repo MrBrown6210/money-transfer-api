@@ -8,11 +8,12 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
   execute(command: CreateUserCommand): Promise<UserEntity> {
     const { email, name, password } = command;
 
-    const user = new UserEntity({
+    const user = UserEntity.create({
       email: new Email(email),
       name,
       password,
     });
+
     return Promise.resolve(user);
   }
 }
