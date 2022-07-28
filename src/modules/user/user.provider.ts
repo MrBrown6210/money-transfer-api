@@ -1,10 +1,10 @@
 import { Logger, Provider } from '@nestjs/common';
 
-const userCLILoggerSymbol = Symbol('userCLILoggerSymbol');
+export const userLoggerSymbol = Symbol('userLoggerSymbol');
 
-export const UserProvider: Provider = {
-  provide: userCLILoggerSymbol,
+export const UserLoggerProvider: Provider = {
+  provide: userLoggerSymbol,
   useFactory: (): Logger => {
-    return new Logger('user-cli');
+    return new Logger('user');
   },
 };

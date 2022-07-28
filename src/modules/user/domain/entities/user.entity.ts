@@ -48,4 +48,7 @@ export class UserEntity extends AggregateRoot implements UserProps {
   updateEmail(email: Email) {
     this.email = email;
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  validate() {}
 }

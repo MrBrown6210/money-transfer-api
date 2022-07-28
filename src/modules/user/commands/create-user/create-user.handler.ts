@@ -1,11 +1,16 @@
+import { Injectable } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { UserOrmEntity } from '../../database/user.orm-entity';
+import { UserRepository } from '../../database/user.repository';
 import { UserEntity } from '../../domain/entities/user.entity';
 import { Email } from '../../domain/value-objects/email.value-object';
 import { CreateUserCommand } from './create-user.command';
 
 @CommandHandler(CreateUserCommand)
 export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
-  execute(command: CreateUserCommand): Promise<UserEntity> {
+  constructor(private readonly userRepo: UserRepository) {}
+
+  async execute(command: CreateUserCommand): Promise<UserEntity> {
     const { email, name, password } = command;
 
     const user = UserEntity.create({
@@ -14,6 +19,8 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
       password,
     });
 
-    return Promise.resolve(user);
+    const created = await this.userRepo.save(user);
+
+    return created;
   }
 }

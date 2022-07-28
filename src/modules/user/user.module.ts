@@ -6,7 +6,7 @@ import { CreateUserHttpController } from './commands/create-user/create-user.htt
 import { UserOrmEntity } from './database/user.orm-entity';
 import { UserOrmMapper } from './database/user.orm-mapper';
 import { UserRepository } from './database/user.repository';
-import { UserProvider } from './user.provider';
+import { UserLoggerProvider } from './user.provider';
 
 const httpControllers = [CreateUserHttpController];
 
@@ -26,6 +26,7 @@ const queryHandlers = [];
     ...repositories,
     ...commandHandlers,
     ...queryHandlers,
+    UserLoggerProvider,
   ],
 })
 export class UserModule {}

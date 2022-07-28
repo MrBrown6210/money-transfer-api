@@ -1,7 +1,9 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
+import { CommandBus } from '@nestjs/cqrs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../domain/entities/user.entity';
+import { userLoggerSymbol } from '../user.provider';
 import { UserOrmEntity } from './user.orm-entity';
 import { UserOrmMapper } from './user.orm-mapper';
 import { FindUsersParams, UserRepositoryPort } from './user.repository.port';
@@ -13,7 +15,17 @@ export class UserRepository implements UserRepositoryPort {
     private readonly userRepository: Repository<UserOrmEntity>,
     @Inject(UserOrmMapper)
     private readonly userOrmMapper: UserOrmMapper,
+    @Inject(userLoggerSymbol)
+    protected readonly logger: Logger,
   ) {}
+
+  async save(user: UserEntity): Promise<UserEntity> {
+    user.validate();
+    const ormEntity = this.userOrmMapper.toOrmProps(user);
+    const result = await this.userRepository.save(ormEntity);
+    this.logger.debug(`[${user.name}] persisted ${user.id.value}`);
+    return this.userOrmMapper.toDomainProp(result);
+  }
 
   async findOneByIdOrThrow(id: string): Promise<UserEntity> {
     const user = await this.userRepository.findOneByOrFail({
