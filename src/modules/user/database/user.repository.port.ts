@@ -8,6 +8,7 @@ export interface FindUsersParams {
  changes together with repository it is kept in the same directory for
  convenience. */
 export interface UserRepositoryPort {
+  save(user: UserEntity): Promise<UserEntity>;
   findOneByIdOrThrow(id: string): Promise<UserEntity>;
   findOneByEmailOrThrow(email: string): Promise<UserEntity>;
   findUsers(query: FindUsersParams): Promise<UserEntity[]>;
