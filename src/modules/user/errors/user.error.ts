@@ -1,11 +1,11 @@
 import { ExceptionBase } from '../../../lib/exceptions';
 
-export class UserAlreadyExistsError extends ExceptionBase {
-  static readonly message: 'User already exists';
+const message = 'User already exists';
 
+export class UserAlreadyExistsError extends ExceptionBase {
   public readonly code = 'USER.ALREADY_EXISTS';
 
   constructor(metadata?: unknown) {
-    super(UserAlreadyExistsError.message, metadata);
+    super(message, metadata);
   }
 }

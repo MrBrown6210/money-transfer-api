@@ -1,10 +1,13 @@
-import { Body, ConflictException, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
+import { match, Result } from 'oxide.ts';
 import { routesV1 } from 'src/infrastructure/configs/app.routes';
 import { CreateUserResponse } from 'src/interface-adapters/dtos/create-user.response.dto';
+import { ConflictException } from 'src/lib/exceptions';
 import { UserEntity } from '../../domain/entities/user.entity';
 import { UserAlreadyExistsError } from '../../errors/user.error';
 import { CreateUserCommand } from './create-user.command';
+import { CreateUserError } from './create-user.handler';
 import { CreateUserRequest } from './create-user.request.dto';
 
 @Controller(routesV1.version)
@@ -15,20 +18,23 @@ export class CreateUserHttpController {
   async create(@Body() body: CreateUserRequest) {
     const command = CreateUserCommand.create({ ...body });
 
-    try {
-      const result = await this.commandBus.execute<
-        CreateUserCommand,
-        UserEntity
-      >(command);
+    const result = await this.commandBus.execute<
+      CreateUserCommand,
+      Result<UserEntity, CreateUserError>
+    >(command);
 
-      return new CreateUserResponse({
-        email: result.email.unpack(),
-        name: result.name,
-      });
-    } catch (error) {
-      if (error instanceof UserAlreadyExistsError)
-        throw new ConflictException(error);
-      throw error;
-    }
+    return match(result, {
+      Ok: (user) =>
+        new CreateUserResponse({
+          email: user.email.unpack(),
+          name: user.name,
+        }),
+      Err: (error) => {
+        if (error instanceof UserAlreadyExistsError) {
+          throw new ConflictException(error.message);
+        }
+        throw error;
+      },
+    });
   }
 }
