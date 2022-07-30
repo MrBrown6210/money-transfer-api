@@ -7,10 +7,13 @@ import { UserOrmEntity } from './database/user.orm-entity';
 import { UserOrmMapper } from './database/user.orm-mapper';
 import { UserRepository } from './database/user.repository';
 import { UserLoggerProvider } from './user.provider';
+import { CreateUserGraphqlResolver } from './commands/create-user/create-user.graphql-resolver';
 
 const httpControllers = [CreateUserHttpController];
 
 const messageController = [];
+
+const graphqlResolvers = [CreateUserGraphqlResolver];
 
 const repositories = [UserRepository, UserOrmMapper];
 
@@ -23,6 +26,7 @@ const queryHandlers = [];
   controllers: [...httpControllers],
   providers: [
     ...messageController,
+    ...graphqlResolvers,
     ...repositories,
     ...commandHandlers,
     ...queryHandlers,
