@@ -8,8 +8,9 @@ import { UserOrmMapper } from './database/user.orm-mapper';
 import { UserRepository } from './database/user.repository';
 import { UserLoggerProvider } from './user.provider';
 import { CreateUserGraphqlResolver } from './commands/create-user/create-user.graphql-resolver';
+import { FindMeHttpController } from './queries/find-me/find-me.http.controller';
 
-const httpControllers = [CreateUserHttpController];
+const httpControllers = [CreateUserHttpController, FindMeHttpController];
 
 const messageController = [];
 
