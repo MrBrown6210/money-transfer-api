@@ -7,7 +7,9 @@ Practice NestJS + CQRS + Clean Architecture + Domain Driven Design with money tr
 - User can transfer money in wallet to another wallet's user
 - User can request money from another wallet's user by userID
 
-## Systems Design
+### Diagram
+
+![Domain-Driven Hexagon](https://github.com/Sairyss/domain-driven-hexagon/blob/master/assets/images/DomainDrivenHexagon.png)
 
 ### Aggregate Root
 
