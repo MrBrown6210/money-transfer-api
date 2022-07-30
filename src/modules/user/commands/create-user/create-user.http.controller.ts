@@ -7,7 +7,7 @@ import { ConflictException } from 'src/lib/exceptions';
 import { UserEntity } from '../../domain/entities/user.entity';
 import { UserAlreadyExistsError } from '../../errors/user.error';
 import { CreateUserCommand } from './create-user.command';
-import { CreateUserError } from './create-user.handler';
+import { CreateUserError } from './create-user.service';
 import { CreateUserRequest } from './create-user.request.dto';
 
 @Controller(routesV1.version)

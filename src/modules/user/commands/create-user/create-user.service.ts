@@ -11,7 +11,7 @@ import { CreateUserCommand } from './create-user.command';
 export type CreateUserError = UserAlreadyExistsError;
 
 @CommandHandler(CreateUserCommand)
-export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
+export class CreateUserService implements ICommandHandler<CreateUserCommand> {
   constructor(
     @Inject(UserRepository)
     private readonly userRepo: UserRepositoryPort,
