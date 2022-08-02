@@ -1,6 +1,8 @@
 # Money Transfer Systems
 
-Practice NestJS + CQRS + Clean Architecture + Domain Driven Design with money transfer systems
+Practice NestJS + CQRS + Clean Architecture + Domain Driven Design with money transfer systems.
+
+Work both on REST API and GraphQL API.
 
 ## Business
 
